@@ -2,8 +2,15 @@
     <ul>
         <li>
             <div class="side">
-                <i class="bi bi-back"></i>
+                <i class="bi bi-card-checklist"></i>
                 <a href="#" data-href="{{ route('candidature.index')}}">Les candidatures</a>
+            </div>
+        </li>
+
+        <li>
+            <div class="side">
+                <i class="bi bi-file-earmark-fill"></i>
+                <a href="#" data-href="#">Cand. spontannées</a>
             </div>
         </li>
 
@@ -13,18 +20,48 @@
                 <a href="#" data-href="{{ route('offre.index') }}">Les offres</a>
             </div>
         </li>
+        <hr>
+        <li>
+            <div class="side">
+                <i class="bi bi-sliders"></i>
+                <a href="#" data-href="{{ route('all.postes') }}">Gérer les postes</a>
+            </div>
+        </li>
 
         <li>
             <div class="side">
-                <i class="bi bi-file-earmark-fill"></i>
-                <a href="#" data-href="#">Candidatures</a>
+                <i class="bi bi-sliders2"></i>
+                <a href="#" data-href="{{ route('all.contrats') }}">Gérer les contrats</a>
+            </div>
+        </li>
+
+        <li>
+            <div class="side">
+                <i class="bi bi-sliders2-vertical"></i>
+                <a href="#" data-href="{{ route('all.process') }}">Gérer les Process</a>
             </div>
         </li>
         <hr>
         <li>
             <div class="side">
                 <i class="bi bi-person-fill"></i>
-                <a href="#" data-href="#">Mon compte</a>
+                <a href="#" data-href="#">Mon compte ({{ Auth::user()->name }})</a>
+            </div>
+        </li>
+
+        <li>
+            <div class="side">
+                <i class="bi bi-box-arrow-left"></i>
+                <a href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                        {{ __('Déconnexion') }}
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+        
             </div>
         </li>
     </ul>

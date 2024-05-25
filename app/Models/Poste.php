@@ -10,4 +10,9 @@ class Poste extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function offres()
+    {
+        return $this->hasMany(Offre::class, 'poste_id');
+    }
 }

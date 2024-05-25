@@ -44,12 +44,17 @@ class CandidatureController extends Controller
             'cand_name' => 'required|string|max:100',
             'cand_email' => 'required|email',
             'cand_num' => 'required|string|max:12',
-            'cand_cv' => 'required|file|max:10240|mimes:pdf,doc,docx', // Limitez les types de fichiers autorisés et la taille maximale
+            'cand_cv' => 'required|file|max:10240|mimes:pdf,doc,docx',
+            'cand_school_lvl' => 'required|string', // Ajoutez cette ligne pour valider le champ
+            'cand_work_exp' => 'required|integer',
+            'cand_motiv_message' => 'required|string', // Limitez les types de fichiers autorisés et la taille maximale
         ]);
-
+    
         // Traitement du fichier CV
-        $cvPath = $request->file('cand_cv')->store('cvs');
-
+        $cv = $request->file('cand_cv');
+        $cvName = time().'.'.$cv->getClientOriginalExtension();
+        $cv->move(public_path('cvs'), $cvName);
+    
         // Créer une nouvelle instance de Candidature avec les données validées
         $candidature = new Candidature;
         $candidature->offre_id = $validatedData['offre_id'];
@@ -58,18 +63,21 @@ class CandidatureController extends Controller
         $candidature->cand_name = $validatedData['cand_name'];
         $candidature->cand_email = $validatedData['cand_email'];
         $candidature->cand_num = $validatedData['cand_num'];
-        $candidature->cand_cv = $cvPath; // Stockez le chemin du fichier CV
+        $candidature->cand_cv = $cvName;
+        $candidature->cand_school_lvl = $validatedData['cand_school_lvl']; // Enregistrez le niveau d'études
+        $candidature->cand_work_exp = $validatedData['cand_work_exp'];
+        $candidature->cand_motiv_message = $validatedData['cand_motiv_message'];
         $candidature->save();
-
+    
+        // Générer l'URL publique pour le CV
+        $cvUrl = url('cvs/'.$cvName);
+    
         // Rediriger avec un message de succès
-        notify()->success('Votre candidature a été soumise avec succès');
-
-        // $offre = Offre::find($request->offre_id);
-        // Envoi de l'e-mail de confirmation
-        // Mail::to($validatedData['cand_email'])->send(new CandidatureConfirmation($offre))
-        
+        notify()->success('Votre candidature a été soumise avec succès.');
+    
         return redirect('/');
     }
+    
 
     /**
      * Display the specified resource.
@@ -101,5 +109,37 @@ class CandidatureController extends Controller
     public function destroy(Candidature $candidature)
     {
         //
+    }
+
+    public function viewCV($id)
+    {
+        $cv = Candidature::find($id);
+        return view('candidature.cv',compact('cv'));
+    }
+
+
+    public function getRatings()
+    {
+        $ratings = Candidature::select('id', 'rating')->get()->pluck('rating', 'id');
+        return response()->json($ratings);
+    }
+
+    public function rate(Request $request)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'candidature_id' => 'required|exists:candidatures,id',
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        // Find the candidature by ID
+        $candidature = Candidature::find($request->candidature_id);
+
+        // Update the rating
+        $candidature->rating = $request->rating;
+        $candidature->save();
+
+        // Return a success response
+        return response()->json(['success' => true]);
     }
 }

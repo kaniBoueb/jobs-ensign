@@ -53,6 +53,9 @@ class OffreController extends Controller
             'poste_id'=>'required',
             'country_id'=>'required',
             'description_poste'=>'required',
+            'mots_cle'=>'required',
+            'resume_poste'=>'required',
+
         ]);
 
         $offre = new Offre();
@@ -64,6 +67,9 @@ class OffreController extends Controller
         $offre->poste_id = $request->poste_id;
         $offre->country_id = $request->country_id;
         $offre->description_poste = $request->description_poste;
+        $offre->mots_cle = $request->mots_cle;
+        $offre->resume_poste = $request->resume_poste;
+
 
         $offre->save();
 
@@ -117,6 +123,8 @@ class OffreController extends Controller
             'poste_id'=>$request->poste_id,
             'country_id'=>$request->country_id,
             'description_poste' => $request->description_poste,
+            'mots_cle' => $request->mots_cle,
+            'resume_poste' => $request->resume_poste,
         ]);
 
         notify()->success('Offre modifée avec succès');

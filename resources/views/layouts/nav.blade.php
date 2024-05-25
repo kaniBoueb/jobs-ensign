@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/fontawesome.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" rel="stylesheet">
-    
+    @vite('resources/css/app.css')
     <!-- Styles -->   
     {{-- @notifyCss --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -64,67 +64,31 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset("js/perso.js") }}"></script>
+    <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white">
-            <div class="container">
-                <div class="logo-nav">
-                    <img src="{{ asset("logo-insign.png") }}" alt="logo Insign" srcset="">
+        <nav class="flex items-center justify-between flex-wrap bg-white mb-5">
+            <div class="container flex items-center justify-between">
+                <div class="flex items-center flex-shrink-0 text-white">
+                    <div class="logo-nav">
+                        <img src="{{ asset("logo-insign.png") }}" alt="logo Insign" srcset="">
+                    </div>
                 </div>
-                <div class="collapse navbar-collapse front-nav" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link dropdown" href="{{ route('login') }}">Qui sommes-nous</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link dropdown" href="{{ route('login') }}">Nos métiers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link dropdown" href="{{ route('login') }}">Postuler à une offre</a>
-                        </li>
-                        <!-- Authentication Links -->
-                        <li class="nav-item">
-                            <a class="nav-link btn nav-btn" href="{{ route('login') }}">{{ __('Déposer une candidature spontannée') }}</a>
-                        </li>
-                        @guest
-                            @if (Route::has('login'))
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    Bonjour, {{ Auth::user()->name }}
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('home') }}">
-                                        {{ __('Mon dashboard') }}
-                                    </a>
-                                </div>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+                <div class="text-md flex justify-between gap-5">
+                    <a class="block mt-4 lg:inline-block lg:mt-0 text-blue-950 no-underline hover:text-cyan-500 mr-4" href="{{ route('login') }}">Nos métiers</a>   
+                    <a class="block mt-4 lg:inline-block lg:mt-0 text-blue-950 no-underline hover:text-cyan-500" href="{{ route('login') }}">Postuler à une offre</a>
+                    <a class="block mt-4 lg:inline-block lg:mt-0 text-blue-950 no-underline hover:text-cyan-500" href="{{ route('login') }}">{{ __('Déposer une candidature spontannée') }}</a>
                 </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <div class="block lg:hidden">
+                    <button class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
+                        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+                    </button>
+                </div>
             </div>
         </nav>
-
         <main>
             @include('notify::components.notify')
             @yield('content')

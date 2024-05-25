@@ -28,9 +28,33 @@
                     </div>
 
                     <div class="form-group col-md-6 my-3">
+                        <label for="cand_cv" class="form-label">Niveau d'études</label>
+                        <select class="form-control" id="cand_school_lvl" name="cand_school_lvl">
+                            <option value="">Niveau d'étude</option>
+                            <option value="Collège" class="">1. Collège</option>
+                            <option value="BAC" class="">2. BAC</option>
+                            <option value="BTS/DEUG/DUT" class="">3. BTS/DEUG/DUT</option>
+                            <option value="Licence" class="">4. Licence</option>
+                            <option value="Master" class="">5. Master</option>
+                            <option value="Doctorat" class="">6. Doctorat</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6 my-3">
+                        <label for="cand_cv" class="form-label">Années d'expérience dans le domaine</label>
+                        <input type="number" class="form-control" name="cand_work_exp" placeholder="3">
+                    </div>
+
+                    <div class="form-group col-md-6 my-3">
                         <label for="cand_cv" class="form-label">CV</label>
                         <input type="file" class="form-control" name="cand_cv" placeholder="Votre CV">
                     </div>
+
+                    <div class="form-group col-md-12 my-3">
+                        <label for="cand_cv" class="form-label">Vos motivations</label>
+                        <textarea class="ckeditor form-control" name="cand_motiv_message"></textarea>
+                    </div>
+
                     <div class="form-group col-md-12 my-5">
                         <button class="btn btn-success">Soumettre</button>
                     </div>

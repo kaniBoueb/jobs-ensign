@@ -39,6 +39,15 @@
                 <div class="form-group col-md-6 my-3">
                     <input type="text" class="form-control" name="reference_offre" id="reference_offre" placeholder="Référence de l'offre">
                 </div>
+
+                <div class="form-group col-md-6 my-3">
+                    <input type="text" class="form-control" name="mots_cle" id="mots_cle" placeholder="3 mots clés ex: Excel, Drupal, Achat média">
+                </div>
+
+                <div class="form-group col-md-12 my-3">
+                    <textarea class="form-control" name="resume_poste" id="resume_poste" placeholder="Résumé du poste en 2 lignes"></textarea>
+                </div>
+                
                 <div class="form-group col-md-12 my-3">
                     <textarea class="ckeditor form-control" name="description_poste"></textarea>
                 </div>

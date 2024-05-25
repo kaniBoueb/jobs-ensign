@@ -74,11 +74,17 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(CandidatureController::class)->group(function(){
         Route::get('/les-candidatures', 'AllCandidatures')->name('candidature.index');
-        Route::get('/{id}/nouvelle-candidature', 'AddCandidatures')->name('candidature.create');
-        Route::post('/nouvelle-candidature', 'AddCandidature')->name('candidature.store');
         Route::get('/supprimer-candidature/{id}', 'DeleteCandidature')->name('candidature.delete');
+        Route::get('/cv/{id}', 'viewCV')->name('view_cv');
     });
 
+    Route::post('/rate', [CandidatureController::class, 'rate'])->name('rate');
+    Route::get('/ratings', [CandidatureController::class, 'getRatings'])->name('getRatings');
+
+    
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/{id}/nouvelle-candidature', [CandidatureController::class, 'AddCandidatures'])->name('candidature.create');
+Route::post('/nouvelle-candidature', [CandidatureController::class, 'AddCandidature'])->name('candidature.store');
+

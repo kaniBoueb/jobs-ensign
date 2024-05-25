@@ -28,7 +28,7 @@
                             <td> {{ $offre->titre }} </td>
                             <td> <span class="badge bg-dark">{{ $offre->date_emission }}</span> </td>
                             <td> <span class="badge bg-warning">{{ $offre->date_echeance }} </span> </td>
-                            <td></td>
+                            <td>{{ $offre->candidatures->count() }}</td>
                             <td style="background: #18224F; justify-content: center; align-items: center; border: 1px solid #00000000;">
                                 <a href="{{ route('offre.edit', $offre->id)}}" id="edit"><i class="fa fa-pen text-light"></i></a>
                                 <a href="{{ route('offre.delete', $offre->id)}}" id="delete"><i class="fa fa-trash text-light"></i></a>

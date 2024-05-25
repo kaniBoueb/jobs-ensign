@@ -7,3 +7,22 @@
 	display: flex;
 	align-items: center;
 }
+
+i.pdf {
+	font-size: 25px !important;
+	cursor: pointer;
+	line-height: 32px;
+}
+
+.star {
+    cursor: pointer;
+    font-size: 16px;
+    color: #cacaca;
+}
+.star-filled {
+    color: gold;
+}
+
+.desc p {
+	margin: 0;
+}

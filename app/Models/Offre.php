@@ -1,11 +1,10 @@
 <?php
 
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Country;
-use Illuminate\Database\Eloquent\Contrat;
 
 class Offre extends Model
 {
@@ -23,5 +22,10 @@ class Offre extends Model
 
     public function contrat(){
         return $this->belongsTo(Contrat::class, 'contrat_id', 'id');
+    }
+
+    public function candidatures()
+    {
+        return $this->hasMany(Candidature::class);
     }
 }
