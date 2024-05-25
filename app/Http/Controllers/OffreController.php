@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contrat;
+use App\Models\Country;
 use App\Models\Offre;
+use App\Models\Poste;
 use Illuminate\Http\Request;
 
 class OffreController extends Controller
@@ -14,7 +17,7 @@ class OffreController extends Controller
      */
     public function index()
     {   
-        $offres = Offre::paginate(20);
+        $offres = Offre::latest()->paginate(6);
 
         return view('offre.index', compact('offres'));
     }
@@ -26,7 +29,11 @@ class OffreController extends Controller
      */
     public function create()
     {
-        return view('offre.create');
+        $postes = Poste::latest()->get();
+        $countries = Country::latest()->get();
+        $contrats = Contrat::latest()->get();
+
+        return view('offre.create', compact('postes', 'contrats', 'countries'));
     }
 
     /**
@@ -42,10 +49,13 @@ class OffreController extends Controller
             'titre'=>'required',
             'date_emission'=>'required',
             'date_echeance'=>'required',
-            'contrat'=>'required',
-            'fonction'=>'required',
-            'pays'=>'required',
+            'contrat_id'=>'required',
+            'poste_id'=>'required',
+            'country_id'=>'required',
             'description_poste'=>'required',
+            'mots_cle'=>'required',
+            'resume_poste'=>'required',
+
         ]);
 
         $offre = new Offre();
@@ -53,10 +63,13 @@ class OffreController extends Controller
         $offre->titre = $request->titre;
         $offre->date_emission = $request->date_emission;
         $offre->date_echeance = $request->date_echeance;
-        $offre->contrat = $request->contrat;
-        $offre->fonction = $request->fonction;
-        $offre->pays = $request->pays;
+        $offre->contrat_id = $request->contrat_id;
+        $offre->poste_id = $request->poste_id;
+        $offre->country_id = $request->country_id;
         $offre->description_poste = $request->description_poste;
+        $offre->mots_cle = $request->mots_cle;
+        $offre->resume_poste = $request->resume_poste;
+
 
         $offre->save();
 
@@ -71,9 +84,9 @@ class OffreController extends Controller
      * @param  \App\Models\Offre  $offre
      * @return \Illuminate\Http\Response
      */
-    public function show(Offre $offre)
+    public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -82,9 +95,14 @@ class OffreController extends Controller
      * @param  \App\Models\Offre  $offre
      * @return \Illuminate\Http\Response
      */
-    public function edit(Offre $offre)
+    public function edit($id)
     {
-        //
+        $offre = Offre::findOrFail($id);
+        $postes = Poste::latest()->get();
+        $countries = Country::latest()->get();
+        $contrats = Contrat::latest()->get();
+
+        return view('offre.edit', compact('offre', 'postes', 'contrats', 'countries'));
     }
 
     /**
@@ -94,9 +112,24 @@ class OffreController extends Controller
      * @param  \App\Models\Offre  $offre
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Offre $offre)
+    public function update(Request $request, $id)
     {
-        //
+        Offre::findOrFail($id)->update([
+            'reference_offre' => $request->reference_offre,
+            'titre' => $request->titre,
+            'date_emission' => $request->date_emission,
+            'date_echeance' => $request->date_echeance,
+            'contrat_id'=>$request->contrat_id,
+            'poste_id'=>$request->poste_id,
+            'country_id'=>$request->country_id,
+            'description_poste' => $request->description_poste,
+            'mots_cle' => $request->mots_cle,
+            'resume_poste' => $request->resume_poste,
+        ]);
+
+        notify()->success('Offre modifée avec succès');
+
+        return redirect()->route('offre.index');
     }
 
     /**
@@ -105,9 +138,15 @@ class OffreController extends Controller
      * @param  \App\Models\Offre  $offre
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Offre $offre)
+    public function destroy($id)
     {
-        //
+        $offre = Offre::findOrFail($id);
+
+        $offre->delete();
+
+        notify()->success('Offre supprimée avec succès');
+
+        return redirect()->route('offre.index');
     }
 
     public function search(Request $request)
